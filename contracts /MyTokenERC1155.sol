@@ -5,35 +5,42 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
+import "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
 
-contract MyToken is ERC1155, Ownable, Pausable, ERC1155Supply {
+contract MyTokenERC1155 is ERC1155, Ownable, Pausable, ERC1155Supply {
     uint256 public cost;
     uint256 public maxSupply;
-    uint256 public primeCost;
     uint256 private idLimit;
     uint256 public userLimit;
+    bytes32 private merkleRoot;
 
     constructor(
         uint256 _cost,
         uint256 _maxSupply,
-        uint256 _primeCost,
         uint256 _idLimit,
         uint256 _userLimit
     ) ERC1155("ipfs://Qmaa6TuP2s9pSKczHF4rwWhTKUdygrrDs8RmYYqCjP3Hye/") {
         cost = _cost;
         maxSupply = _maxSupply;
-        primeCost = _primeCost;
+
         idLimit = _idLimit;
         userLimit = _userLimit;
     }
 
-    mapping(address => bool) private primeList;
     mapping(address => uint256) private limitperUser;
 
-    function setPrimeList(address[] calldata addressess) external onlyOwner {
-        for (uint256 i = 0; i < addressess.length; i++) {
-            primeList[addressess[i]] = true;
-        }
+    function setMerkleRoot(bytes32 _merkleRoot) external onlyOwner {
+        merkleRoot = _merkleRoot;
+    }
+
+    function getMerkleRoot() external view returns (bytes32) {
+        return merkleRoot;
+    }
+
+    modifier checkWhitelist(bytes32[] memory _merkleProof) {
+        bytes32 sender = keccak256(abi.encodePacked(_msgSender()));
+        require(MerkleProofUpgradeable.verify(_merkleProof, merkleRoot, sender), "not whitelisted");
+        _;
     }
 
     function setURI(string memory newuri) external onlyOwner {
@@ -42,10 +49,6 @@ contract MyToken is ERC1155, Ownable, Pausable, ERC1155Supply {
 
     function setCost(uint256 _cost) external onlyOwner {
         cost = _cost;
-    }
-
-    function setPrimeCost(uint256 _primeCost) external onlyOwner {
-        primeCost = _primeCost;
     }
 
     function setMaxSupply(uint256 _maxSupply) external onlyOwner {
@@ -65,21 +68,14 @@ contract MyToken is ERC1155, Ownable, Pausable, ERC1155Supply {
     }
 
     // Supply Tracking
-    function primeMint(uint256 id, uint256 amount) external payable {
-        require(primeList[msg.sender], "you are not whitelisted");
+    function primeMint(
+        bytes32[] calldata _proof,
+        uint256 id,
+        uint256 amount
+    ) external payable checkWhitelist(_proof) onlyOwner {
         require(id <= idLimit, "you are minting wrong nft");
         require(limitperUser[msg.sender] + amount <= userLimit, "buying limit exceeded");
-        require(msg.value == amount * primeCost, "Insuficient balance");
         require(totalSupply(id) + amount < maxSupply, " supply exceded");
-        limitperUser[msg.sender] += amount;
-        _mint(msg.sender, id, amount, "");
-    }
-
-    function publicMint(uint256 id, uint256 amount) external payable {
-        require(msg.value == amount * cost, "Insufficient balance");
-        require(id <= idLimit, "you are minting wrong nft");
-        require(limitperUser[msg.sender] + amount <= userLimit, "buying limit exceeded");
-        require(totalSupply(id) + amount < maxSupply, "Not enough nfts");
         limitperUser[msg.sender] += amount;
         _mint(msg.sender, id, amount, "");
     }
