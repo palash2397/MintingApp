@@ -62,8 +62,7 @@ describe("Unit Test", () => {
       await token.transfer(user.address, "5000000000000000000");
       var tx = await jtrNft.connect(user).buyNFT(await merkleTree(), 1, { value: (1 * (3 * 10 ** 18)).toString() });
       var txn = await tx.wait();
-      //  0x713447cc82256701ef11f4480b98eeebde38decda54305a6f370a15b14238a7c
-
+     
       await token.transfer(user.address, "5000000000000000000");
       var tx = await jtrNft.connect(user).buyNFT(await merkleTree(), 1, { value: (1 * (1 * 10 ** 18)).toString() });
       var txn = await tx.wait();
@@ -86,8 +85,7 @@ describe("Unit Test", () => {
       await token.transfer(user.address, "5000000000000000000");
       var tx = await jtrNft.connect(user).buyNFT(await merkleTree(), 2, { value: (2 * (3 * 10 ** 18)).toString() });
       var txn = await tx.wait();
-      //  0x713447cc82256701ef11f4480b98eeebde38decda54305a6f370a15b14238a7c
-
+      
       await token.transfer(user.address, "5000000000000000000");
       var tx = await jtrNft.connect(user).buyNFT(await merkleTree(), 2, { value: (2 * (1 * 10 ** 18)).toString() });
       var txn = await tx.wait();
@@ -106,8 +104,7 @@ describe("Unit Test", () => {
       await token.transfer(user.address, "5000000000000000000");
       var tx = await jtrNft.connect(user).buyNFT(await merkleTree(), 3, { value: (3 * (3 * 10 ** 18)).toString() });
       var txn = await tx.wait();
-      //  0x713447cc82256701ef11f4480b98eeebde38decda54305a6f370a15b14238a7c
-
+    
       await token.transfer(user.address, "5000000000000000000");
       var tx = await jtrNft.connect(user).buyNFT(await merkleTree(), 1, { value: (1 * (1 * 10 ** 18)).toString() });
       var txn = await tx.wait();
@@ -126,8 +123,7 @@ describe("Unit Test", () => {
       await token.transfer(user.address, "5000000000000000000");
       var tx = await jtrNft.connect(user).buyNFT(await merkleTree(), 3, { value: (3 * (3 * 10 ** 18)).toString() });
       var txn = await tx.wait();
-      //  0x713447cc82256701ef11f4480b98eeebde38decda54305a6f370a15b14238a7c
-
+     
       await token.transfer(user.address, "5000000000000000000");
       var tx = await jtrNft.connect(user).buyNFT(await merkleTree(), 1, { value: (1 * (1 * 10 ** 18)).toString() });
       var txn = await tx.wait();
@@ -146,8 +142,7 @@ describe("Unit Test", () => {
       await token.transfer(user.address, "5000000000000000000");
       var tx = await jtrNft.connect(user).buyNFT(await merkleTree(), 4, { value: (4 * (3 * 10 ** 18)).toString() });
       var txn = await tx.wait();
-      //  0x713447cc82256701ef11f4480b98eeebde38decda54305a6f370a15b14238a7c
-
+   
       await token.transfer(user.address, "5000000000000000000");
       await truffleAssert.reverts(
         jtrNft.connect(user).buyNFT(await merkleTree(), 1, { value: (1 * (1 * 10 ** 18)).toString() }),
