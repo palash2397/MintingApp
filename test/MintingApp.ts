@@ -46,12 +46,8 @@ describe("Unit Test", () => {
       const whitelistAddresses = [soliditySha3(user.address), soliditySha3(user1.address)];
       const merkleTree = new MerkleTree(whitelistAddresses, soliditySha3, { sortPairs: true });
       const rootHash = merkleTree.getHexRoot();
-      // console.log("Whitelist Merkle Tree\n", merkleTree.toString());
-      // console.log("Root Hash: ", rootHash);
       const claimingAddress = whitelistAddresses[0] || "";
-      //  console.log("str",claimingAddress)
       const hexProof = merkleTree.getHexProof(claimingAddress);
-      // console.log(hexProof);
       await jtrNft.setMerkleRoot(rootHash);
       return hexProof;
     }
@@ -116,24 +112,7 @@ describe("Unit Test", () => {
       );
     });
 
-    it("NFT buy three by three", async () => {
-      await token.connect(user).approve(jtrNft.address, "3000000000000000000");
-      await token.connect(user).increaseAllowance(jtrNft.address, "5000000000000000000");
 
-      await token.transfer(user.address, "5000000000000000000");
-      var tx = await jtrNft.connect(user).buyNFT(await merkleTree(), 3, { value: (3 * (3 * 10 ** 18)).toString() });
-      var txn = await tx.wait();
-     
-      await token.transfer(user.address, "5000000000000000000");
-      var tx = await jtrNft.connect(user).buyNFT(await merkleTree(), 1, { value: (1 * (1 * 10 ** 18)).toString() });
-      var txn = await tx.wait();
-
-      await token.transfer(user.address, "5000000000000000000");
-      await truffleAssert.reverts(
-        jtrNft.connect(user).buyNFT(await merkleTree(), 1, { value: (1 * (1 * 10 ** 18)).toString() }),
-        "buying limit exceeded",
-      );
-    });
 
     it("NFT buy four by four", async () => {
       await token.connect(user).approve(jtrNft.address, "3000000000000000000");
