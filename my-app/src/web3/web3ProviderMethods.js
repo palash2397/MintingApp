@@ -1,7 +1,9 @@
-import ERC1155_TOKEN_CONTRACT_ABI from "../smart-contracts/contract_abi/erc1155.json";
+import JTR_TOKEN_CONTRACT_ABI from "../smart-contracts/contract_abi/JTRtoken.json";
+import ERC721_TOKEN_CONTRACT_ABI from "../smart-contracts/contract_abi/Minting_App.json";
 import Web3 from "web3";
 
-const ERC1155_TOKEN_CONTRACT_ADDRESS = process.env.REACT_APP_ERC1155_TOKEN_CONTRACT_ADDRESS;
+const ERC721_TOKEN_CONTRACT_ADDRESS = process.env.REACT_APP_ERC721_TOKEN_CONTRACT_ADDRESS;
+const JTR_TOKEN_ADDRESS = process.env.REACT_APP_JTR_TOKEN_CONTRACT_ADDRESS;
 
 export const getWeb3Provider = () => {
   return new Promise(async (resolve, reject) => {
@@ -36,9 +38,16 @@ export const getContractInstance = async contractName => {
   let abi;
   let contractAddress;
 
-  abi = ERC1155_TOKEN_CONTRACT_ABI;
-  contractAddress = ERC1155_TOKEN_CONTRACT_ADDRESS;
+  switch (contractName) {
+    case "Minting App":
+      abi = ERC721_TOKEN_CONTRACT_ABI;
+      contractAddress = ERC721_TOKEN_CONTRACT_ADDRESS;
+      break;
+    default:
+      abi = JTR_TOKEN_CONTRACT_ABI;
+      contractAddress = JTR_TOKEN_ADDRESS;
+  }
 
-  const AstTokenContract = new web3.eth.Contract(abi, contractAddress);
-  return AstTokenContract;
+  const JTRTokenContract = new web3.eth.Contract(abi, contractAddress);
+  return JTRTokenContract;
 };

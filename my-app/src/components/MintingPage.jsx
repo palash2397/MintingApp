@@ -7,25 +7,14 @@ import { useState } from 'react';
 import { connectWallet } from '../web3/walletMothods';
 //import { string } from 'hardhat/internal/core/params/argumentTypes';
 
+const MintingPage = (prop) => {
 
-
-const MintingPage = () => {
-  const[wallet, setwallet]=useState({
-    walletAddress:"",
-    networkID:"",
-    isActive:false
-  });
-
-  const connectWalleHandle= async()=>{
-    const { walletAddress, networkID }= await connectWallet()
-    setwallet((value)=> ({...value, walletAddress : walletAddress , networkID: networkID}))
-    }
     
   return (
     <div className='minting_wrp w-25'>
-     <Button variant="warning" className='connect_btn' onClick={connectWalleHandle} >connect </Button>{' '}
-     <h2>Prime minting cost</h2>
-     <h2>Minting cost</h2>
+     <Button variant="warning" className='connect_btn ' onClick={prop.connectWalleHandle} >connect </Button>{' '}
+    
+     <h2 className='main-heading'>Minting cost</h2>
         
      <InputGroup size="sm">
         <Form.Control
@@ -33,6 +22,8 @@ const MintingPage = () => {
           aria-describedby="inputGroup-sizing-sm"
         />
       </InputGroup>
+      <Button variant="success" className='mt-4 mint-btn'>Buy NFT</Button>{' '}
+
     </div>
   )
 }

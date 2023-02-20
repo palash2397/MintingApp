@@ -1,7 +1,8 @@
 import { convertWeiToEther } from "../../src/utils/currencyMethods";
 import { getContractInstance, getWeb3Provider } from "./web3ProviderMethods";
 
-const envNetworkId = process.env.NEXT_PUBLIC_ETHEREUM_NETWORK_ID;
+// const envNetworkId = process.env.NEXT_PUBLIC_ETHEREUM_NETWORK_ID;
+const envNetworkId = 5;
 export const getWalletAstTokenBalance = async wallet_address => {
   const AstTokenContract = await getContractInstance();
   const response = await AstTokenContract.methods.balanceOf(wallet_address).call();
@@ -42,7 +43,7 @@ export function addWalletEventListener(accountCallback, networkCallback) {
 
 export async function checkWalletConnection(callbackFuntion) {
   const { web3 } = await getWeb3Provider();
-  const isConnected = await web3.eth.getAccounts();
+  const isConnected = await web3.eth.getAccinterfaceounts();
   const value = isConnected.length === 0 ? false : true;
   callbackFuntion(value);
 }

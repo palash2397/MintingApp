@@ -2,6 +2,9 @@
   text-align: center;
 }
 
+
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -13,8 +16,14 @@
   }
 }
 
+.main-heading{
+  color: rgb(0, 0, 0);
+  text-shadow: 0 0 3px #ff1111, 0 0 5px #2020fd;
+  
+}
+
 .App-header {
-  background-color: #598ffa;
+
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -31,6 +40,26 @@
   position: fixed;
   top: 30px;
   right: 30px;
+ 
+  
+}
+
+.connect_btn:hover{
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+
+.logout_btn{
+  position: fixed;
+  top: 90px;
+  right: 30px;
+ 
+}
+
+.mint-btn:hover{
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0, 0, 0, 0.19);
+
 }
 
 @keyframes App-logo-spin {
