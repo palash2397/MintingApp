@@ -1,6 +1,9 @@
 
 const { ethers, upgrades } = require("hardhat");
 
+const proxy1 = "0x32B2f46930fE22A424152a882A321194eE501040"; //
+
+
 async function main() {
   const [deployer] = await ethers.getSigners();
 
@@ -8,12 +11,13 @@ async function main() {
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  const nftcontract = await ethers.getContractFactory("JTRToken");
-  const ERCcontract = await nftcontract.deploy()
-  await ERCcontract.deployed();
-  console.log("Contract deployed to :", ERCcontract.address);
+  const contract = await ethers.getContractFactory("MintingApp");
 
-  
+  const JTR = await upgrades.upgradeProxy(proxy1,contract);
+  await JTR.deployed();
+  console.log("Contract deployed to :", JTR.address);
+
+
 }
 
 main()

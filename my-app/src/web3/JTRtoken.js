@@ -1,3 +1,5 @@
-import getContractInstance from "./web3ProviderMethods";
+import getContractInstance from "./web3ProviderMethods"
 
-const approveJtrToken = () => {};
+const approveJtrToken=()=>{
+    
+}

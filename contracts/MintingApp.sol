@@ -68,6 +68,10 @@ contract MintingApp is
         maxSupply = _maxSupply;
     }
 
+    function setCost(uint256 _cost) external onlyOwner {
+        cost = _cost;
+    }
+
     function setmaxUserLimit(uint256 _maxUserLimit) external onlyOwner {
         maxUserLimit = _maxUserLimit;
     }
@@ -86,7 +90,7 @@ contract MintingApp is
         _;
     }
 
-    function buyNFT(bytes32[] calldata _proof, uint256 nftQty) external payable checkWhitelist(_proof) {
+    function buyNFT(bytes32[] calldata _proof, uint256 nftQty) external checkWhitelist(_proof) {
         uint256 tokenBalance = token.balanceOf(msg.sender);
         require(tokenBalance >= nftQty * (cost), "Insufficient balance");
         require(limitperUser[msg.sender] + nftQty <= maxUserLimit, "buying limit exceeded");

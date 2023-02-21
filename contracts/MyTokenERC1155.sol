@@ -13,7 +13,7 @@ contract MyTokenERC1155 is ERC1155, Ownable, Pausable, ERC1155Supply {
     uint256 private idLimit;
     uint256 public userLimit;
     bytes32 private merkleRoot;
-
+    
     constructor(
         uint256 _cost,
         uint256 _maxSupply,
@@ -22,7 +22,7 @@ contract MyTokenERC1155 is ERC1155, Ownable, Pausable, ERC1155Supply {
     ) ERC1155("ipfs://Qmaa6TuP2s9pSKczHF4rwWhTKUdygrrDs8RmYYqCjP3Hye/") {
         cost = _cost;
         maxSupply = _maxSupply;
-
+     
         idLimit = _idLimit;
         userLimit = _userLimit;
     }
@@ -36,13 +36,12 @@ contract MyTokenERC1155 is ERC1155, Ownable, Pausable, ERC1155Supply {
     function getMerkleRoot() external view returns (bytes32) {
         return merkleRoot;
     }
-
+     
     modifier checkWhitelist(bytes32[] memory _merkleProof) {
         bytes32 sender = keccak256(abi.encodePacked(_msgSender()));
         require(MerkleProofUpgradeable.verify(_merkleProof, merkleRoot, sender), "not whitelisted");
         _;
     }
-
     function setURI(string memory newuri) external onlyOwner {
         _setURI(newuri);
     }
@@ -51,6 +50,7 @@ contract MyTokenERC1155 is ERC1155, Ownable, Pausable, ERC1155Supply {
         cost = _cost;
     }
 
+ 
     function setMaxSupply(uint256 _maxSupply) external onlyOwner {
         maxSupply = _maxSupply;
     }
@@ -68,17 +68,15 @@ contract MyTokenERC1155 is ERC1155, Ownable, Pausable, ERC1155Supply {
     }
 
     // Supply Tracking
-    function primeMint(
-        bytes32[] calldata _proof,
-        uint256 id,
-        uint256 amount
-    ) external payable checkWhitelist(_proof) onlyOwner {
+    function primeMint(bytes32[] calldata _proof, uint256 id, uint256 amount) external payable checkWhitelist(_proof) onlyOwner{
         require(id <= idLimit, "you are minting wrong nft");
         require(limitperUser[msg.sender] + amount <= userLimit, "buying limit exceeded");
         require(totalSupply(id) + amount < maxSupply, " supply exceded");
         limitperUser[msg.sender] += amount;
         _mint(msg.sender, id, amount, "");
+           
     }
+
 
     // function mintBatch(address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data)
     //     external
