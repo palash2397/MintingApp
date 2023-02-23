@@ -1,8 +1,8 @@
 import { convertWeiToEther } from "../../src/utils/currencyMethods";
 import { getContractInstance, getWeb3Provider } from "./web3ProviderMethods";
 
-// const envNetworkId = process.env.NEXT_PUBLIC_ETHEREUM_NETWORK_ID;
-const envNetworkId = 5;
+const envNetworkId = process.env.REACT_APP_ETHEREUM_NETWORK_ID;
+
 export const getWalletAstTokenBalance = async wallet_address => {
   const AstTokenContract = await getContractInstance();
   const response = await AstTokenContract.methods.balanceOf(wallet_address).call();
@@ -11,8 +11,9 @@ export const getWalletAstTokenBalance = async wallet_address => {
 };
 
 export const connectWallet = async (envNetworkId, envNetworkIdInHex) => {
-  if (window.ethereum && window.ethereum.isMetaMask) {
+  if (window.ethereum ) {
     const { web3 } = await getWeb3Provider();
+ 
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
@@ -25,7 +26,7 @@ export const connectWallet = async (envNetworkId, envNetworkIdInHex) => {
     }
     return { walletAddress: accounts[0], networkID: networkId };
   } else {
-    window.location.href = process.env.NEXT_PUBLIC_METAMASK_DOWNLOAD_LINK_FOR_MOBILE;
+    window.location.href = process.env.REACT_APP_METAMASK_DOWNLOAD_LINK_FOR_MOBILE;
     throw new Error("Wallet app not found");
   }
 };

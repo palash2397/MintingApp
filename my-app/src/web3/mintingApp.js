@@ -1,5 +1,7 @@
-import moment from "moment";
-import { convertEtherToWei } from "../utils/currencyMethods";
+// import moment from "moment";
+// import { convertEtherToWei } from "../utils/currencyMethods";
+ import { ethers } from "ethers";
+//import {web3} from "web3-utils";
 import { getContractInstance } from "../web3/web3ProviderMethods";
 
 
@@ -16,18 +18,39 @@ export const setMerkleRoot = async (merkleRoot, adminWalletAddress) => {
 
 export const buyNFT = async (
   proof,
-  mintCost,
   selectedQuantity,
   userAddress,
 ) => {
+  console.log(proof,
+    selectedQuantity,
+    userAddress)
   const MintingAppContract = await getContractInstance(
-    'Minting App',
+    'Minting App'
   );
-  console.log(MintingAppContract.methods, '---MintingAppContract');
-  const getMarkerRoot=await MintingAppContract.methods().call();
-  console.log(getMarkerRoot,'--getMarkerRoot');
+
+ // console.log(MintingAppContract.methods, '---MintingAppContract');
+//  const getMarkerRoot = await MintingAppContract.methods;
+ // console.log(getMarkerRoot, '--getMarkerRoot');
   const result = await MintingAppContract.methods
-    .buyNFT(selectedQuantity.toString())
-    .send({ from: userAddress, value: mintCost });
+    .buyNFT(proof, selectedQuantity)
+    .send({ from: userAddress });
   return result;
 };
+
+
+export const getMintingCost = async () => {
+  const MintingAppContract = await getContractInstance('Minting App');
+
+  const getMintingCostResponse = await MintingAppContract.methods.getMintingCost().call()
+  const result = ethers.utils.formatEther(getMintingCostResponse?.toString())
+
+  return result;
+};
+
+// const costInWei = getMintingCost();
+//const res = ethers.utils.formatEther(getMintingCostResponse?.toString())
+
+// export const weiToEthConverter = (costInWei) => {
+// //  const result = ethers.utils.formatEther(getMintingCost()?.toString());
+//   return Number(res);
+// };

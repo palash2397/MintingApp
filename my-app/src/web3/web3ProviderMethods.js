@@ -9,7 +9,7 @@ const JTR_TOKEN_ADDRESS= process.env.REACT_APP_JTR_TOKEN_CONTRACT_ADDRESS;
 
 
 export const getWeb3Provider = () => {
-  return new Promise(async (resolve, reject) => { 
+  return new Promise( (resolve, reject) => { 
     if (window.ethereum) {
       try {
         const web3 = new Web3(window.ethereum);
@@ -26,7 +26,7 @@ export const getWeb3Provider = () => {
       }
     } else {
       try {
-        const provider = new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_INFURA_PROVIDER_URL);
+        const provider = new Web3.providers.HttpProvider(process.env.REACT_APP_INFURA_PROVIDER_URL);
         const web3 = new Web3(provider);
         resolve({ web3 });
       } catch (error) {
@@ -50,7 +50,7 @@ export const getContractInstance = async (contractName) => {
         abi = JTR_TOKEN_CONTRACT_ABI;
         contractAddress = JTR_TOKEN_ADDRESS;
   }
-
+ 
   const JTRTokenContract = new web3.eth.Contract(abi, contractAddress);
   return JTRTokenContract;
 };

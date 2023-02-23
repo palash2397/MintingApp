@@ -1,7 +1,6 @@
 
 const { ethers, upgrades } = require("hardhat");
-
-const proxy1 = "0x32B2f46930fE22A424152a882A321194eE501040"; //
+import values from "./arguments/jtrnft"
 
 
 async function main() {
@@ -13,7 +12,7 @@ async function main() {
 
   const contract = await ethers.getContractFactory("MintingApp");
 
-  const JTR = await upgrades.upgradeProxy(proxy1,contract);
+  const JTR = await upgrades.upgradeProxy(values.proxy,contract);
   await JTR.deployed();
   console.log("Contract deployed to :", JTR.address);
 
