@@ -1,0 +1,10 @@
+{
+  "description": "Avenger",
+  "image": "ipfs://QmdiQ7tQJxPyEStvubRTdBeHbETReaZjTSsftCyyV25vM3/2.jpg",
+  "name": "captain",
+  "attributes": [
+    { "trait_type": "Base", "value": "Starfish" },
+    { "trait_type": "Eyes", "value": "Big" },
+    { "trait_type": "Mouth", "value": "Surprised" }
+  ]
+}
