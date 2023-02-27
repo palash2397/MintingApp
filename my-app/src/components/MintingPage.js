@@ -3,15 +3,16 @@ import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PropTypes from 'prop-types';
 import { MerkleTree } from "merkletreejs"
-//import { sha256 } from 'ethers/lib/utils.js';
-import { getMintingCost } from "../web3/mintingApp"
-//import {weiToEthConverter} from "../web3/mintingApp";
+import { getMintingCost, approveJTRtoken } from "../web3/mintingApp"
+import { ethToWeiConverter } from '../web3/mintingApp';
 import { soliditySha3 } from 'web3-utils';
 import { useState } from 'react';
 import { buyNFT } from '../web3/mintingApp';
-//import { keccak256 } from 'web3-utils';
-//import { string } from 'hardhat/internal/core/params/argumentTypes';
+import Spinner from 'react-bootstrap/Spinner';
+
+
 const wallatAdd = localStorage.getItem('walletAddress')
+const JTR_NFT_CONTRACT_ADDRESS = process.env.REACT_APP_ERC721_TOKEN_CONTRACT_ADDRESS;
 
 const Addresses = ['0x4f02c3102a9d2e1cc0cc97c7fe2429b9b6f5965d',
   '0xF0a83ba20A16A93161262bE2cD71bc4d626C08a0',
@@ -21,9 +22,10 @@ const Addresses = ['0x4f02c3102a9d2e1cc0cc97c7fe2429b9b6f5965d',
 
 
 
-const MintingPage = ({ connectWalletHandle }) => {
+const MintingPage = ( ) => {
   const [nftQty, setNftQty] = useState('Select Quantity')
   const [mintCost, setMintCost] = useState(1);
+  const [loading, setLoading]= useState(false);
 
   useEffect(() => {
     (async () => {
@@ -36,43 +38,12 @@ const MintingPage = ({ connectWalletHandle }) => {
 
   const buyItem = async () => {
     try {
-
-      // const merkleTree = whitelistAddresses.map((x) => sha256(x))
-      // const tree = new MerkleTree(merkleTree, sha256, { sortPairs: true })
-      // const leaf = sha256("0xB00Af9fd043CA06039fBc8c2Ca27559006606CA9")
-      // const proof = tree.getProof(leaf)
-      // //  localStorage.setItem("prof",JSON.stringify(proof))
-      // debugger
-      // const result = await buyNFT(proof, '0.0001', '1', wallatAdd.toString());
-      // console.log(result, '---');
-
-
-
-      // const leavesNodeArray = whitelistAddresses.map((address) => keccak256(address));
-      // const merkleTree = new MerkleTree(leavesNodeArray, sha256, {
-      //   sortPairs: true,
-      // });
-      // const merkleTreeRootHash = merkleTree.getHexRoot();
-      // const validationAddressLeaf = keccak256(wallatAdd);
-      // const merkleTreeProof = merkleTree.getHexProof(validationAddressLeaf);
-      // const merkleTree = new MerkleTree(whitelistAddresses, sha256, { sortPairs: true });
-      // const rootHash = merkleTree.getHexRoot();
-      // // console.log("Whitelist Merkle Tree\n", merkleTree.toString());
-      // // console.log("Root Hash: ", rootHash);
-
-
-      // const claimingAddress = wallatAdd;
-      //const claimingAddress= ['0x4F02C3102A9D2e1cC0cC97c7fE2429B9B6F5965D'];
-      // const hexProof = merkleTree.getHexProof(claimingAddress);
-      // console.log("proof", hexProof)
-      // console.log(
-      //   "rooot", merkleTreeRootHash,
-      //   merkleTree.verify(
-      //     merkleTreeProof,
-      //     validationAddressLeaf,
-      //     merkleTreeRootHash,
-      //   ),
-      // );
+      
+    //  debugger; // eslint-disable-line no-debugger
+      let nftCostInWei = ethToWeiConverter(mintCost);
+      setLoading(true)
+      await approveJTRtoken(JTR_NFT_CONTRACT_ADDRESS, nftCostInWei.toString(), wallatAdd)
+      
 
       const whitelistAddresses = [soliditySha3(wallatAdd), soliditySha3(Addresses[1])];
       const merkleTree = new MerkleTree(whitelistAddresses, soliditySha3, { sortPairs: true });
@@ -80,15 +51,16 @@ const MintingPage = ({ connectWalletHandle }) => {
       // console.log("Whitelist Merkle Tree\n", merkleTree.toString());
       console.log("Root Hash: ", rootHash);
       const claimingAddress = whitelistAddresses[0] || "";
-     // console.log("claimingAddress", claimingAddress)
+      // console.log("claimingAddress", claimingAddress)
 
       const hexProof = merkleTree.getHexProof(claimingAddress);
-     // console.log(hexProof);
+      // console.log(hexProof);
 
       console.log(merkleTree.verify(hexProof, claimingAddress, rootHash));
 
       const result = await buyNFT(hexProof, nftQty, wallatAdd.toString());
       console.log(result, '---');
+      setLoading(false)
     } catch (error) {
       console.error(error)
 
@@ -98,14 +70,17 @@ const MintingPage = ({ connectWalletHandle }) => {
   return (
     <>
       <div className='minting_wrp w-25'>
-        <Button variant="warning" className='connect_btn ' onClick={connectWalletHandle} >connect </Button>{' '}
         <h2 className='main-heading'>Jupiter NFT cost </h2>
         <h2 className='main-heading'>{mintCost * nftQty} JTR </h2>
         <Dropdown className="d-inline mx-2">
           <Dropdown.Toggle id="dropdown-autoclose-true">
             {nftQty}
           </Dropdown.Toggle>
+          {loading?  <div className='loader'>
+           <Spinner animation="grow" variant="danger"  />
 
+          </div>:""}
+         
           <Dropdown.Menu>
             <Dropdown.Item href="#" onClick={() => setNftQty('1')}>1</Dropdown.Item>
             <Dropdown.Item href="#" onClick={() => setNftQty('2')} >2</Dropdown.Item>

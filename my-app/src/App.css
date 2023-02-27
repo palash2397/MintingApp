@@ -30,7 +30,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(53, 93, 194);
 }
 
 .App-link {
@@ -42,6 +42,20 @@
   right: 30px;
  
   
+}
+
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  transition: opacity 0.75s, visibility 0.75s;
+  opacity: 0.8;
 }
 
 .connect_btn:hover{

@@ -15,6 +15,20 @@ export const setMerkleRoot = async (merkleRoot, adminWalletAddress) => {
   return merkleResponse;
 };
 
+export const approveJTRtoken= async(spender, nftCost, address)=>{
+ // debugger; // eslint-disable-line no-debugger
+  const JTRtokenContract = await getContractInstance();
+  const response =  await JTRtokenContract.methods
+             .approve(spender, nftCost)
+             .send({from: address})
+  return response;
+}
+
+export const ethToWeiConverter = (value) => {
+ // debugger; // eslint-disable-line no-debugger
+  const result = ethers.utils.parseUnits(value?.toString());
+  return Number(result);
+};
 
 export const buyNFT = async (
   proof,
@@ -47,10 +61,3 @@ export const getMintingCost = async () => {
   return result;
 };
 
-// const costInWei = getMintingCost();
-//const res = ethers.utils.formatEther(getMintingCostResponse?.toString())
-
-// export const weiToEthConverter = (costInWei) => {
-// //  const result = ethers.utils.formatEther(getMintingCost()?.toString());
-//   return Number(res);
-// };

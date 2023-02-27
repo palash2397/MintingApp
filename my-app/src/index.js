@@ -1,6 +1,5 @@
 import App from "./App.jsx";
-require("dotenv").config()
-import "./index.css";
+import "./index.css"
 import React from "react";
 import ReactDOM from "react-dom/client";
 

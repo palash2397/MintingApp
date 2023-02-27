@@ -1,5 +1,6 @@
 import "./App.css";
 import MintingPage from "./components/MintingPage";
+import Button from 'react-bootstrap/Button';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { connectWallet } from './web3/walletMothods';
@@ -8,24 +9,18 @@ const REACT_APP_ETHEREUM_NETWORK_ID_IN_HEX = process.env.REACT_APP_ETHEREUM_NETW
 
 
 function App() {
-  // const [wallet, setwallet] = useState({
-  //   walletAddress: "",
-  //   networkID: "",
-  //   isActive: false
-  // });
-  const [logout, setLogut] = useState(false)
+  const [walletConnect , setWalletConnect] = useState(false)
 
   const connectWalletHandle = async () => {
     try {
 
       const { walletAddress, networkID } = await connectWallet(REACT_APP_NETWORK_ID, REACT_APP_ETHEREUM_NETWORK_ID_IN_HEX)
 
-      // setwallet((value) => ({ ...value, walletAddress: walletAddress, networkID: networkID }))
       console.log(walletAddress, networkID)
       localStorage.setItem("walletAddress", walletAddress)
       localStorage.setItem("networkID", networkID)
 
-      setLogut(true)
+      setWalletConnect(true)
 
     } catch (error) {
       console.log(error)
@@ -38,7 +33,8 @@ function App() {
     <>
       <div className="App">
         <header className="App-header">
-          <MintingPage logout={logout} connectWalletHandle={connectWalletHandle} />
+        <Button variant="warning" className='connect_btn ' onClick={connectWalletHandle} >{walletConnect? "connected":"connect"} </Button>{' '}
+          <MintingPage/>
 
         </header>
 
