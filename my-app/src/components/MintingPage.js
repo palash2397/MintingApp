@@ -16,8 +16,8 @@ const JTR_NFT_CONTRACT_ADDRESS = process.env.REACT_APP_ERC721_TOKEN_CONTRACT_ADD
 
 const Addresses = ['0x4f02c3102a9d2e1cc0cc97c7fe2429b9b6f5965d',
   '0xF0a83ba20A16A93161262bE2cD71bc4d626C08a0',
-  '0xb178512aA2C4D0c3C43a12c7b7C2d1465fe298A5',
-  '0xB00Af9fd043CA06039fBc8c2Ca27559006606CA9'
+  '0xb178512aA2C4D0c3C43a12c7b7C2d1465fe298A5'
+  
 ];
 
 
@@ -39,10 +39,10 @@ const MintingPage = ( ) => {
   const buyItem = async () => {
     try {
       
-    //  debugger; // eslint-disable-line no-debugger
-      let nftCostInWei = ethToWeiConverter(mintCost);
-      setLoading(true)
-      await approveJTRtoken(JTR_NFT_CONTRACT_ADDRESS, nftCostInWei.toString(), wallatAdd)
+      // debugger; // eslint-disable-line no-debugger
+       let nftCostInWei = ethToWeiConverter(mintCost);
+       setLoading(true)
+       await approveJTRtoken(JTR_NFT_CONTRACT_ADDRESS, (nftCostInWei*nftQty).toString(), wallatAdd)
       
 
       const whitelistAddresses = [soliditySha3(wallatAdd), soliditySha3(Addresses[1])];
@@ -51,12 +51,12 @@ const MintingPage = ( ) => {
       // console.log("Whitelist Merkle Tree\n", merkleTree.toString());
       console.log("Root Hash: ", rootHash);
       const claimingAddress = whitelistAddresses[0] || "";
-      // console.log("claimingAddress", claimingAddress)
+      console.log("claimingAddress", claimingAddress)
 
-      const hexProof = merkleTree.getHexProof(claimingAddress);
-      // console.log(hexProof);
+       const hexProof = merkleTree.getHexProof(claimingAddress);
+      // // console.log(hexProof);
 
-      console.log(merkleTree.verify(hexProof, claimingAddress, rootHash));
+      // console.log(merkleTree.verify(hexProof, claimingAddress, rootHash));
 
       const result = await buyNFT(hexProof, nftQty, wallatAdd.toString());
       console.log(result, '---');
