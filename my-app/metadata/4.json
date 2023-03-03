@@ -1,6 +1,6 @@
 {
   "description": "Avenger",
-  "image": "ipfs://QmdiQ7tQJxPyEStvubRTdBeHbETReaZjTSsftCyyV25vM3/4.jpg",
+  "image": "https://gateway.pinata.cloud/ipfs/QmdiQ7tQJxPyEStvubRTdBeHbETReaZjTSsftCyyV25vM3/4.jpg",
   "name": "hulk",
   "attributes": [
     { "trait_type": "Base", "value": "Starfish" },

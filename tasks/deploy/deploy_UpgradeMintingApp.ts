@@ -1,7 +1,7 @@
 
-const { ethers, upgrades } = require("hardhat");
-import values from "./arguments/jtrnft"
-
+   const { ethers, upgrades } = require("hardhat");
+   import values from "./arguments/jtrnft"
+// //  import { ethers, upgrades } from "hardhat";
 
 async function main() {
   const [deployer] = await ethers.getSigners();

@@ -7,6 +7,7 @@ const baseExtension = ".json";
 const maxUserLimit = 4;
 const maxSupply =100
 const proxy ="0x32B2f46930fE22A424152a882A321194eE501040"
+const merkleroot=""
 
 const values = {
   Name, 
@@ -17,7 +18,8 @@ const values = {
   baseExtension,
   maxUserLimit,
   maxSupply,
-  proxy
+  proxy,
+  merkleroot
 };
 
 export default values;

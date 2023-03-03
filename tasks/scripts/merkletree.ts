@@ -8,8 +8,8 @@ const whitelistAddresses = [
 ];
 
 
-const merkleTree = new MerkleTree(whitelistAddresses, soliditySha3, { sortPairs: true });
 
+const merkleTree = new MerkleTree(whitelistAddresses, soliditySha3, { sortPairs: true });
 const rootHash = merkleTree.getHexRoot();
 console.log("Whitelist Merkle Tree\n", merkleTree.toString());
 console.log("Root Hash: ", rootHash);

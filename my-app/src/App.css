@@ -18,8 +18,8 @@
 
 .main-heading{
   color: rgb(0, 0, 0);
-  text-shadow: 0 0 3px #ff1111, 0 0 5px #2020fd;
-  
+  text-shadow: 0 0 3px #ff1111, 0 0 5px #0909f7;
+
 }
 
 .App-header {
@@ -44,6 +44,8 @@
   
 }
 
+
+
 .loader {
   position: fixed;
   top: 0;
@@ -55,24 +57,23 @@
   justify-content: center;
   background: #000000;
   transition: opacity 0.75s, visibility 0.75s;
-  opacity: 0.8;
+  opacity: 0.5;
 }
 
 .connect_btn:hover{
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.327),0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  background-color: transparent !important;
+  border: 1px solid black !important;
+  
 
 }
 
-
-.logout_btn{
-  position: fixed;
-  top: 90px;
-  right: 30px;
- 
-}
 
 .mint-btn:hover{
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.327),0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  background-color: transparent !important;
+  border: 1px solid black !important;
+  color: #000000 !important;
 
 }
 
