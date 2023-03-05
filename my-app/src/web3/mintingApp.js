@@ -61,3 +61,11 @@ export const getMintingCost = async () => {
   return result;
 };
 
+export const setRestriction = async( address)=>{
+  const MintingAppContract = await getContractInstance('Minting App');
+  const setRestrictionResponse = await MintingAppContract.methods
+                .setRestriction()
+                .send({from: address})
+  return setRestrictionResponse;
+}
+

@@ -32,11 +32,15 @@ function App() {
 
   }
 
+
+
+
   return (
     <>
       <div className="App">
         <header className="App-header">
         <Button variant="warning" className='connect_btn ' onClick={connectWalletHandle} >{walletConnect? "connected":"connect"} </Button>{' '}
+        
           <MintingPage/>
 
         </header>

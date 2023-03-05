@@ -9,14 +9,14 @@ import { ethToWeiConverter } from '../web3/mintingApp';
 import { soliditySha3 } from 'web3-utils';
 import { useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
-import { buyNFT } from '../web3/mintingApp';
+import { buyNFT, setRestriction } from '../web3/mintingApp';
 import { toast } from 'react-toastify';
 
 
 const JTR_NFT_CONTRACT_ADDRESS = process.env.REACT_APP_ERC721_TOKEN_CONTRACT_ADDRESS;
 
 const Addresses = ['0x4f02c3102a9d2e1cc0cc97c7fe2429b9b6f5965d',
-'0xF0a83ba20A16A93161262bE2cD71bc4d626C08a0'
+  '0xF0a83ba20A16A93161262bE2cD71bc4d626C08a0'
 
 ];
 
@@ -38,16 +38,16 @@ const MintingPage = () => {
   }, [])
 
 
-
+  // buying nft 
   const buyItem = async () => {
     // debugger; // eslint-disable-line no-debugger
     try {
       let nftCostInWei = ethToWeiConverter(mintCost);
       setLoading(true)
-      const whitelistAddresses = Addresses.map((val)=>soliditySha3(val));
+      const whitelistAddresses = Addresses.map((val) => soliditySha3(val));
       const merkleTree = new MerkleTree(whitelistAddresses, soliditySha3, { sortPairs: true });
       const rootHash = merkleTree.getHexRoot();
-      console.log(rootHash,"root")
+      console.log(rootHash, "root")
       const claimingAddress = soliditySha3(wallatAdd) || "";
       const hexProof = merkleTree.getHexProof(claimingAddress);
       if (merkleTree.verify(hexProof, claimingAddress, rootHash)) {
@@ -57,16 +57,34 @@ const MintingPage = () => {
         toast.success("transaction successfull")
       } else {
         toast.error("you are not whitelisted")
-        
+
       }
 
       setLoading(false)
     } catch (error) {
-       console.error(error)
+      console.error(error)
       setLoading(false)
 
     }
   }
+
+  const setRestrictionHanddle = async () => {
+    // debugger; // eslint-disable-line no-debugger
+    try {
+      setLoading(true)
+      await setRestriction(wallatAdd)
+      toast.success("transaction successfull")
+      setLoading(false)
+
+    } catch (error) {
+      console.log(error)
+      toast.error(error)
+      setLoading(false)
+
+
+    }
+  }
+
 
   return (
 
@@ -94,6 +112,8 @@ const MintingPage = () => {
 
       </div>
       <Button variant="success" className='mt-4 mint-btn' onClick={buyItem}>Buy NFT</Button>{' '}
+      <Button variant="dark" className='connect_btn_restrict' onClick={setRestrictionHanddle} >Restrict </Button>{' '}
+
     </>
   )
 }
