@@ -9,7 +9,7 @@ import { ethToWeiConverter } from '../web3/mintingApp';
 import { soliditySha3 } from 'web3-utils';
 import { useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
-import { buyNFT, setRestriction } from '../web3/mintingApp';
+import { buyNFT, setRestriction, getOwner } from '../web3/mintingApp';
 import { toast } from 'react-toastify';
 
 
@@ -68,20 +68,19 @@ const MintingPage = () => {
     }
   }
 
+  // setting restriction
   const setRestrictionHanddle = async () => {
-    // debugger; // eslint-disable-line no-debugger
-    try {
+
+    let rest = await getOwner()
+    if (wallatAdd == rest.toLowerCase()) {
       setLoading(true)
       await setRestriction(wallatAdd)
       toast.success("transaction successfull")
       setLoading(false)
 
-    } catch (error) {
-      console.log(error)
-      toast.error(error)
+    } else {
+      toast.error("you are not a owner")
       setLoading(false)
-
-
     }
   }
 

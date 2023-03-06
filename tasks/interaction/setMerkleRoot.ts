@@ -4,8 +4,7 @@ import { MintingApp__factory } from "../../types/factories/contracts/MintingApp_
 import { MintingApp  } from "../../types/contracts/MintingApp";
 import { readContractAddress } from "../deploy/utils";
 import cArguments from "../deploy/arguments/jtrnft";
-task("interaction:setmerkleRoot")
-.addParam("merkleroot ", "Input the new merkleroot")
+task("interaction:NFTsetmerkleRoot")
 .setAction(async function (_, { ethers }) {
   const accounts: Signer[] = await ethers.getSigners();
   const NFT = readContractAddress("MintingApp");

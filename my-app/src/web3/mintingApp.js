@@ -1,11 +1,6 @@
-// import moment from "moment";
-// import { convertEtherToWei } from "../utils/currencyMethods";
- import { ethers } from "ethers";
-//import {web3} from "web3-utils";
+
+import { ethers } from "ethers";
 import { getContractInstance } from "../web3/web3ProviderMethods";
-
-
-
 export const setMerkleRoot = async (merkleRoot, adminWalletAddress) => {
   const MintingAppContract = await getContractInstance('Minting App');
   const merkleResponse = await MintingAppContract.methods
@@ -67,5 +62,16 @@ export const setRestriction = async( address)=>{
                 .setRestriction()
                 .send({from: address})
   return setRestrictionResponse;
+}
+
+export const getOwner = async()=>{
+//  debugger; // eslint-disable-line no-debugger
+  const MintingAppContract = await getContractInstance('Minting App');
+  const getOwnerResponse = await MintingAppContract.methods
+                   .owner()
+                   .call()  
+  return getOwnerResponse;
+   
+
 }
 
