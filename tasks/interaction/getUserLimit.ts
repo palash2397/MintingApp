@@ -3,22 +3,19 @@ import { task } from "hardhat/config";
 
 import { MintingApp } from "../../types/contracts/MintingApp";
 import { MintingApp__factory } from "../../types/factories/contracts/MintingApp__factory";
-import cArguments from "../deploy/arguments/jtrnft";
 import { readContractAddress } from "../deploy/utils";
 
-task("interaction:NFTsetUserlimit").setAction(async function (_, { ethers }) {
+task("interaction:NFTgetUserLimit").setAction(async function (_, { ethers }) {
   const accounts: Signer[] = await ethers.getSigners();
   const NFT = readContractAddress("MintingApp");
-  const { maxUserLimit } = cArguments;
   const nftFactory: MintingApp__factory = <MintingApp__factory>(
     await ethers.getContractFactory("MintingApp", accounts[0])
   );
   const nft: MintingApp = <MintingApp>await nftFactory.attach(NFT);
   try {
-    const res1 = await nft.setmaxUserLimit(6);
-    console.log(`NFT: user limit to ${6} `);
-    console.log("tx hash: ", res1.hash);
+    const res1 = await nft.maxUserLimit();
+    console.log(`NFT: max user limit is ${res1} `);
   } catch (e) {
-    console.error("NFT error user limit", e);
+    console.error(" NFT error userLimit", e);
   }
 });

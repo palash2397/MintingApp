@@ -65,7 +65,6 @@ export const setRestriction = async( address)=>{
 }
 
 export const getOwner = async()=>{
-//  debugger; // eslint-disable-line no-debugger
   const MintingAppContract = await getContractInstance('Minting App');
   const getOwnerResponse = await MintingAppContract.methods
                    .owner()
@@ -73,5 +72,14 @@ export const getOwner = async()=>{
   return getOwnerResponse;
    
 
+}
+
+export const getUserMaxLimit= async()=>{
+  const MintingAppContract = await getContractInstance('Minting App');
+  const getUserMaxLimitResponse = await MintingAppContract.methods
+                       .maxUserLimit()
+                       .call()
+  
+  return getUserMaxLimitResponse;
 }
 

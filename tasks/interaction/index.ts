@@ -1,3 +1,9 @@
+import "./getCost";
+import "./getMaxSupply";
+import "./getMerkleRoot";
+import "./getUserLimit";
+import "./setBaseExtension";
+import "./setBaseUri";
 import "./setCost";
 import "./setMaxUserLimit";
 import "./setMerkleRoot";

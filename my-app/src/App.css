@@ -99,6 +99,39 @@
 
 }
 
+
+
+h2 {
+  position: relative; /* needed for absolute positioning */
+  text-decoration: none;
+  display: inline-block;
+
+  
+  
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px; /* adjust the distance of the underline */
+  width: 100%;
+  height: 2px;
+  background-color: #000; /* change the color of the underline */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.9s ease-in-out;
+}
+
+h2:hover::after {
+  transform: scaleX(1);
+}
+
+
+
+
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -107,3 +140,5 @@
     transform: rotate(360deg);
   }
 }
+
+

@@ -13,10 +13,10 @@ task("interaction:NFTsetmerkleRoot")
   const nft: MintingApp = <MintingApp>await nftFactory.attach(NFT);
   try {
     const res1 = await nft.setMerkleRoot(merkleroot);
-    console.log(`NFT: setcost to ${merkleroot} `);
+    console.log(`NFT: setMerkleRoot to ${merkleroot} `);
     console.log("tx hash: ", res1.hash);
   } catch (e) {
-    console.error(" NFT error setCost", e);
+    console.error(" NFT error setMerkleRoot", e);
   }
 });
 
